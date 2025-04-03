@@ -1,0 +1,16 @@
+---
+# This is a simple Ansible playbook to install and start Nginx
+- name: Install and start Nginx # Playbook name
+  hosts: all  # Target host group from inventory
+  become: true # Run commands as root
+  tasks:
+    - name: Install Nginx # Task to install Nginx
+      apt:
+        name: nginx # Package name
+        state: present # Ensure Nginx is installed
+
+
+    - name: Start Nginx service # Task to start the Nginx service
+      service:
+        name: nginx
+        state: started

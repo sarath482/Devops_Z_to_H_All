@@ -1,0 +1,29 @@
+---
+- name: Remove Nginx from target machine
+  hosts: webservers #replace with your target host group in inventory
+  become: yes # Run command as root 
+  
+  tasks:
+   - name: Stop nginx service
+     service: 
+      name: nginx
+      state: stopped
+     ignore_error: yes # ignore if nginx is not running
+
+   - name: Uninstall Nginx package
+     apt:
+      name: nginx
+      state: absent
+
+   - name: Remove Nginx configuration and logs
+     file:
+        path: "{{ item }}"
+        state: absent
+     loop:
+        - /etc/nginx  # Configuration files
+        - /var/log/nginx  # Logs
+        - /var/www/html  # Default web directory (optional)
+   - name: Clean up unused packages
+     apt:
+      autoremove: yes
+      purge: yes
