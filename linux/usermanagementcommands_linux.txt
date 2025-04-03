@@ -1,0 +1,115 @@
+# linux ubuntu users adding process.
+
+# Adding the user 
+
+sudo useradd -m sarath
+
+#Check user added or not .
+
+Sudo cat /ect/passwd
+
+sarath:x:1007:1009::/home/sarath:/bin/sh
+
+# User password add
+
+sudo passwd sarath 
+
+New password:
+Retype new password:
+passwd: password updated successfully
+
+#User deletetion commands
+
+sudo userdel -r sarath 
+
+######################################
+# Create Groups
+ 
+sudo groupadd Developers
+sudo groupadd testers
+sudo groupadd devops
+
+# Create Users and Assign Them to Groups
+
+sudo useradd -m -G developers dev1
+sudo useradd -m -G testers tester1
+sudo useradd -m -G devops sarath
+
+-m --> Creates a home directory for the user.
+
+-G --> Assigns the user to the specified group.
+
+# Set Passwords for Users
+
+sudo passwd dev1
+sudo passwd tester1
+sudo passwd sarath
+
+##Verify Permissions of files
+
+
+ls -ld /opt/project
+
+drwxrwx---  root developers  /opt/project  # Developers have RW access
+
+# File Permissions Based on Your Requirements
+
+#If Testers Should Have Read-Only Access
+
+sudo chmod 750 /opt/project
+
+# If Developers Should Have Read & Write Access
+
+sudo chown root:developers /opt/project
+sudo chmod 770 /opt/project
+
+#If DevOps Should Have Sudo Permissions
+Ensure they are in the /etc/sudoers file
+sudo visudo
+
+#Add below line.
+
+%devops ALL=(ALL) NOPASSWD: ALL
+
+#verify list of groups.
+
+cat etc/group
+
+#Adding groups list
+
+developers:x:1001:dev
+testers:x:1002:t1,t2
+devops:x:1003:d2
+dev:x:1004:
+t1:x:1006:
+t2:x:1007:
+d2:x:1008:
+
+# Deleting groups 
+
+sudo groupdel testers
+
+#You cannot delete a group if it is the primary group of any user.
+
+#Check Users Belonging to the Group
+
+grep testers /etc/group
+
+#You may see output like this:
+testers:x:1002:chandrs,jhon2
+
+#Change the Primary Group of the User
+
+sudo usermod -g developers chandrs
+
+#If you don’t have another group, create one first:
+sudo groupadd developers
+sudo usermod -g developers chandrs
+
+# Delete the testers Group
+
+sudo groupdel testers
+
+# Verify Group Deletion
+
+cat etc/group
