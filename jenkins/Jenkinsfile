@@ -12,36 +12,67 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Debug Workspace') {
             steps {
-                sh 'docker build -t ${IMAGE_NAME} .'
+                sh '''
+                    echo "📂 Workspace path:"
+                    pwd
+
+                    echo "📄 Listing files in workspace:"
+                    ls -la
+                '''
             }
         }
 
-        stage('Run Docker Image') {
+        stage('Build Docker Image') {
             steps {
-                sh 'docker run -d -p 3000:3000 --name hello-container ${IMAGE_NAME}'
+                sh '''
+                    echo "🔧 Building Docker image..."
+                    docker build -t ${IMAGE_NAME} .
+                '''
+            }
+        }
+
+        stage('Check Image Size') {
+            steps {
+                sh 'docker images ${IMAGE_NAME} --format "📦 Size: {{.Size}}"'
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                sh '''
+                    echo "🚀 Running Docker container..."
+                    docker run -d -p 3000:3000 --name hello-container ${IMAGE_NAME}
+                '''
             }
         }
 
         stage('Verify Container') {
             steps {
-                sh 'curl --retry 5 --retry-delay 2 http://localhost:3000'
+                sh '''
+                    echo "🔍 Verifying Docker container with curl..."
+                    curl --retry 5 --retry-delay 2 http://localhost:3000
+                '''
             }
         }
     }
 
     post {
         always {
-            echo '🧹 Cleaning up container...'
-            sh 'docker stop hello-container || true'
-            sh 'docker rm hello-container || true'
+            echo '🧹 Cleaning up Docker container...'
+            sh '''
+                docker stop hello-container || true
+                docker rm hello-container || true
+            '''
         }
+
         success {
             echo '✅ Hello Docker pipeline completed successfully!'
         }
+
         failure {
-            echo '❌ Pipeline failed.'
+            echo '❌ Pipeline failed. Please check logs above.'
         }
     }
 }
