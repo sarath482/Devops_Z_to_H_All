@@ -1,0 +1,51 @@
+                Linux EC2 Access Recovery Techniques
+
+ Common EC2 Access Issues & Recovery Methods
+ 
+ 1. What to do if PEM key is lost or corrupted?
+ -----------------------------------------------
+If your PEM key is corrupted or lost, you can't SSH directly into the EC2 instance.
+ However, recovery is possible via:
+ A. Detach Root Disk Method (Manual Recovery):
+   - Stop the affected instance.
+   - Detach its root volume (e.g., /dev/xvda).
+   - Attach the root volume to another EC2 instance as a secondary volume.
+   - SSH into the second instance and mount the volume.
+   - Modify or add a new public key to ~/.ssh/authorized_keys.
+   - Unmount and reattach the volume to the original instance.
+   - Start the original instance and SSH using the new key.
+
+ B. SSM (AWS Systems Manager) Method:
+   - Use Session Manager to access EC2 without PEM or SSH.
+   - Ensure SSM Agent is installed and running on the instance.
+   - Attach IAM role with AmazonSSMManagedInstanceCore policy.
+   - Ensure network access to SSM endpoints.
+   - Connect from AWS Console -> EC2 -> Connect -> Session Manager.
+
+
+ 2. What is SSM?
+----------------
+SSM = AWS Systems Manager. 
+It provides secure remote access and management to EC2.
+- No PEM or SSH required.
+- Securely connect via AWS Console.
+- Audit logs available.
+- Works over HTTPS (no open port 22).
+ Use Cases:- 
+ Lost SSH key.
+ - Automate patching.
+ - Centralized command execution.
+
+ 3. Can we reset the EC2 root password?
+ --------------------------------------
+No direct password reset like traditional OS. 
+Best way is to either:- Mount disk to another instance and change `authorized_keys`.
+- Use SSM and reset user credentials inside the OS.
+ 4. What is the Azure equivalent of this process?
+ ------------------------------------------------
+In Azure:- Stop the VM.
+- Detach the OS disk.
+- Attach it to another VM.
+- Mount and update credentials or SSH keys.
+- Reattach and start original VM.
+This is known as the "Rescue VM" method in Azure.
