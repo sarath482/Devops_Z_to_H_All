@@ -1,0 +1,28 @@
+pipeline{
+    agent any
+        
+    stages {
+        stage('welcome') {
+            steps {
+                echo 'Hello! This is your first Jenkins Pipeline.'
+            }
+        }
+        stage('Date check') {
+            steps {
+                sh 'date'
+            }
+        }
+        stage('List files') {
+            steps {
+                sh 'ls -la'
+            }
+        }
+        stage('custom message') {
+            steps {
+                sh 'echo "praticing jenkins pipelines"'
+            }
+        }
+        
+    }
+    
+}

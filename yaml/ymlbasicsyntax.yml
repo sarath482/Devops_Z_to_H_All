@@ -1,0 +1,21 @@
+---
+# Scalars
+Name: sarath
+Location: hyd
+Profession: IT 
+Designation: devops
+Cloud: Aws,Azure
+# List
+Hobbies:
+  - Reading
+  - devops
+  - exploring tech
+  - youtube
+#Mappings
+FavouriteFoods:
+  - Fruits: Apples
+  - Drinks: lemonwater
+#Multiline Scalar
+what is the yaml script about: |
+  Basic yaml syntax
+  for the begginers

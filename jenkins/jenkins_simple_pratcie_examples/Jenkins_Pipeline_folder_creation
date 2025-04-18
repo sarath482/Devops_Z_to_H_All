@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('create folder') {
+            steps {
+            sh '''
+            mkdir -p test
+            echo " ✅ Folder 'test created'"
+            '''
+        }
+    }
+    stage('set permissions') {
+        steps {
+            sh '''
+            chmod 777 test
+            echo " ✅  full permissions are set on 'test'"
+            '''
+            
+        }
+    }
+    stage('create file with test') {
+        steps {
+            sh '''
+            echo "This is a simple test file" > test/info.txt
+                echo "✅ File 'info.txt' created with text"
+                '''
+        }
+    }
+    stage ('verify file') {
+        steps {
+            sh '''
+            if [ -f test/info.txt ]; then
+            echo "✅ File 'info.txt' exists"
+            else
+              echo "❌ File creation failed"
+              exit 1
+           fi
+           '''
+           
+        }
+    }
+    stage('Final confirmantion'){
+        steps {
+            echo "🎉 Folder, permissions, and file created successfully!"
+        }
+        
+    }
+    
+    }
+}

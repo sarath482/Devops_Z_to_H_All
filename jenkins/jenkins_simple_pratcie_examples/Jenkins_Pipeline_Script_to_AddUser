@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('create Admin user') {
+            steps {
+                sh '''
+                sudo useradd admin || echo "user alredy exists"
+                '''
+            }
+            
+        }
+        stage('set admin password') {
+            steps {
+                sh '''
+                echo 'admin:admin' | sudo chpasswd
+                '''
+            }
+        }
+        stage('get user information') {
+            steps {
+                sh '''
+                id admin
+                '''
+            }
+        }
+        stage('confirmation') {
+            steps {
+                echo 'Admin user created successfully!'
+                
+            }
+        }
+    }
+}
