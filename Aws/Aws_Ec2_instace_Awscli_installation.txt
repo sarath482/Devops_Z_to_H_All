@@ -16,3 +16,31 @@ unzip awscliv2.zip
 #After unzip run this commnd below command
 
 sudo ./install
+
+
+###################################################
+# Step-by-Step: Install eksctl on Linux
+
+1.Download the latest eksctl binary:
+
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" -o eksctl.tar.gz
+
+2.Extract the archive:
+
+tar -xzf eksctl.tar.gz
+
+3.Move eksctl to /usr/local/bin (makes it globally executable):
+
+sudo mv eksctl /usr/local/bin
+
+4.Verify the installation:
+
+eksctl version
+
+5.You should see output like:
+
+eksctl version: 0.xx.x
+
+
+
+
