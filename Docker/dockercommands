@@ -1,0 +1,57 @@
+# Example docker commands
+
+# Build Docker Image
+docker build -t sarathdevops/nginx-demo:latest .
+
+# Login and Push to Docker Hub
+docker login
+username : sarathdevops
+Password: ************
+
+docker push sarathdevops/nginx-demo:latest
+
+#Kuberentes commands and issues
+
+nginx-demo-845c5bb956-vncqq   0/1     ErrImagePull   0              18s  # Issue
+
+image: your-dockerhub-username/flask-demo:latest   #issue line
+
+# issue solution
+# Step-by-Step Fix for ErrImagePull with Private Docker Hub Image
+
+Step 1: Create Docker Registry Secret
+
+kubectl create secret docker-registry regcred \
+  --docker-username=sarathdevops \
+  --docker-password=***********
+
+kubectl apply -f nginx-deployment.yaml
+
+# Now its working
+nginx-demo-5767c89488-l46x5   1/1     Running   0              10s
+
+# Updated Workflow After Changing Code or HTML
+# Update the Version Tag
+
+docker build -t sarathdevops/nginx-demo:v2 .
+
+# Push to Docker Hub
+
+docker push sarathdevops/nginx-demo:v2
+
+#trigger a rollout restart:
+kubectl rollout restart deployment nginx-demo
+
+#Check rollout status:
+kubectl rollout status deployment nginx-demo
+
+-------------------------------------------------------
+# nginx-demo deploymet summary
+Build : docker build -t sarathdevops/nginx-demo:v2 .
+Push: docker push sarathdevops/nginx-demo:v2
+Update Deployment	image: sarathdevops/nginx-demo:v2
+Redeploy : 	kubectl apply -f nginx-deployment.yaml or kubectl rollout restart
+
+
+
+
