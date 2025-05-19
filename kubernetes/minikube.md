@@ -70,6 +70,72 @@ source ~/.bashrc
 
 kubectl version --short --client
 
+git clone https://github.com/praveen1994dec/kubernetes_java_deployment.git
+
+Build images and push this images in github.
+
+Then run kubernetes commands
+
+docker build -t sarathdevops/stockmanager:latest .
+docker push sarathdevops/stockmanager:latest
+
+# Kubernetes 
+
+kubectl apply-f shopfront-service.yaml
+kubectl apply-f productcatalogue-service.yaml
+kubectl apply-f stockmanager-service.yaml
+
+# Issue
+stockmanager-69fb476557-vlsx8       0/1     CrashLoopBackOff   9 (4m42s ago)   23m
+
+Solution:
+
+ spec:
+      containers:
+      - name: productcatalogue
+        image: praveensingam1994/stockmanager:latest
+
+Updated:
+
+ spec:
+      containers:
+      - name: productcatalogue
+        image: sarathdevops/stockmanager:latest
+# Issue 
+php-apache-6487c65df8-5p7pp         0/1     ImagePullBackOff   0          115s
+
+Events:
+  Type     Reason     Age                 From               Message
+  ----     ------     ----                ----               -------
+  Normal   Scheduled  106s                default-scheduler  Successfully assigned default/php-apache-6487c65df8-5p7pp to minikube
+  Normal   Pulling    45s (x3 over 105s)  kubelet            Pulling image "registry.k8s.io/hpa-example"
+  Warning  Failed     36s (x3 over 96s)   kubelet            Failed to pull image "registry.k8s.io/hpa-example": failed to register layer: write /usr/lib/x86_64-linux-gnu/libpthread.a: no space left on device
+  Warning  Failed     36s (x3 over 96s)   kubelet            Error: ErrImagePull
+  Normal   BackOff    0s (x5 over 95s)    kubelet            Back-off pulling image "registry.k8s.io/hpa-example"
+  Warning  Failed     0s (x5 over 95s)    kubelet            Error: ImagePullBackOff
+
+# Solution
+# lscase1 : Clean up space
+
+docker system prune -a -f
+
+# PV and PVC And Pod
+
+Pod --> volumeMount (name=my-storage)
+      --> volume (name=my-storage, pvc=my-pvc)
+               --> PersistentVolumeClaim (my-pvc)
+                     --> Bound to PersistentVolume (my-pv)
+
+# Relationship          	Location in YAML
+
+PVC ⟶ PV	               Kubernetes automatically matches them based on size and access mode.
+Pod ⟶ PVC	               Inside the Pod YAML under volumes[].persistentVolumeClaim.claimName
+Pod ⟶ Volume               mount Inside the Pod YAML under volumeMounts[].name and volumes[].name
+
+
+
+
+
 
 
 
