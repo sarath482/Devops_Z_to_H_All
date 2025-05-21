@@ -1,4 +1,4 @@
-# Build images and push this images in dockerhub.Then run kubernetes commands
+# Build Docker images, push them to Docker Hub, and then deploy those images using Kubernetes manifests.
 
 docker build -t sarathdevops/stockmanager:latest .
 
@@ -14,13 +14,11 @@ kubectl apply-f stockmanager-service.yaml
 stockmanager-69fb476557-vlsx8       0/1     CrashLoopBackOff   9 (4m42s ago)   23m
 
 Solution:
-
  spec:
       containers:
       - name: productcatalogue
         image: praveensingam1994/stockmanager:latest
-
-Updated:
+**Updated:**
 
  spec:
       containers:
