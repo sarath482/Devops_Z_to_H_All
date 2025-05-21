@@ -1,0 +1,22 @@
+# resource-quota.yaml
+apiVersion: v1                     # Specifies the API version used for this Kubernetes object
+kind: ResourceQuota                # Declares that this manifest defines a ResourceQuota object
+metadata:
+  name: saas-team-quota            # The name of the ResourceQuota object
+  namespace: dev                   # The namespace in which this quota applies
+
+spec:                              # Specification of the quota limits
+  hard:                            # Defines the hard (maximum) resource usage limits
+    pods: "10"                     # Maximum number of Pods that can exist in this namespace
+    requests.cpu: "2"              # Total CPU resource requests allowed (in cores)
+    requests.memory: 2Gi           # Total memory requests allowed (in GiB)
+    limits.cpu: "4"                # Total CPU resource limits allowed (in cores)
+    limits.memory: 4Gi             # Total memory limits allowed (in GiB)
+    configmaps: "5"                # Maximum number of ConfigMaps allowed in this namespace
+    persistentvolumeclaims: "5"    # Maximum number of PersistentVolumeClaims allowed
+    replicationcontrollers: "5"    # Maximum number of ReplicationControllers allowed
+    secrets: "5"                   # Maximum number of Secrets allowed
+    services: "5"                  # Maximum number of Services allowed
+    services.loadbalancers: "2"    # Maximum number of LoadBalancer-type Services
+    services.nodeports: "3"        # Maximum number of NodePort-type Services
+    count/deployments.apps: "4"    # Maximum number of Deployment objects in apps/v1 group allowed

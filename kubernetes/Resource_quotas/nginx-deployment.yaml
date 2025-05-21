@@ -1,0 +1,25 @@
+apiVersion: apps/v1                 # API version for Deployment
+kind: Deployment                    # Kind of object
+metadata:
+  name: nginx                       # Name of the Deployment
+  namespace: dev                    # Namespace where it will be deployed
+spec:
+  replicas: 3                       # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: nginx                    # Selector to match pods with the label
+  template:
+    metadata:
+      labels:
+        app: nginx                  # Label assigned to pods (must match selector)
+    spec:
+      containers:
+      - name: nginx                 # Container name
+        image: nginx:1.17           # Docker image to use
+        resources:                  # Resource requests and limits
+          requests:
+            cpu: "100m"             # Minimum CPU requested per container
+            memory: "10Mi"          # Minimum memory requested per container
+          limits:
+            cpu: "200m"             # Max CPU allowed
+            memory: "50Mi"          # Max memory allowed

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: dev-resource-limits
+  namespace: dev
+spec:
+  limits:
+  - type: Container                # Must be first in the list item
+    max:
+      cpu: 500m                    # Maximum allowed per container
+      memory: 512Mi
+    min:
+      cpu: 50m                     # Minimum allowed per container
+      memory: 32Mi
+    defaultRequest:
+      cpu: 50m                     # Default request if none is specified
+      memory: 64Mi
+    default:
+      cpu: 100m                    # Default limit if none is specified
+      memory: 128Mi
