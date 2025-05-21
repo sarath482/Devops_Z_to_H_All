@@ -1,6 +1,4 @@
-# Build images and push this images in docker hub.
-
-# Then run kubernetes commands
+# Build images and push this images in dockerhub.Then run kubernetes commands
 
 docker build -t sarathdevops/stockmanager:latest .
 
