@@ -6,9 +6,9 @@ docker push sarathdevops/stockmanager:latest
 
 # Kubernetes 
 
-kubectl apply-f shopfront-service.yaml
-kubectl apply-f productcatalogue-service.yaml
-kubectl apply-f stockmanager-service.yaml
+kubectl apply-f shopfront-service.yaml 
+kubectl apply-f productcatalogue-service.yaml 
+kubectl apply-f stockmanager-service.yaml 
 
 # Issue
 stockmanager-69fb476557-vlsx8       0/1     CrashLoopBackOff   9 (4m42s ago)   23m
