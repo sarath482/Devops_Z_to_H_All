@@ -1,0 +1,32 @@
+# -------------------------------------
+# Deployment definition for NGINX
+# -------------------------------------
+
+apiVersion: apps/v1        # API version for Deployment resource
+kind: Deployment           # Specifies the kind of resource - Deployment
+
+metadata:
+  name: nginx              # Name of the deployment
+  namespace: dev           # Namespace to deploy into (must exist beforehand)
+
+spec:
+  replicas: 3              # Number of pod replicas to maintain
+
+  selector:                # Selector to identify the pods managed by this deployment
+    matchLabels:
+      app: nginx           # Must match the labels in the pod template
+
+  strategy:                # Update strategy for rolling updates
+    type: RollingUpdate    # RollingUpdate allows zero downtime updates (default)
+
+  template:                # Pod template: describes what each pod will look like
+    metadata:
+      labels:
+        app: nginx         # Label that matches the selector above
+
+    spec:
+      containers:
+      - name: nginx        # Name of the container
+        image: nginx:1.17  # Container image to run (from Docker Hub)
+        ports:
+        - containerPort: 80  # (Optional) Port exposed by the container

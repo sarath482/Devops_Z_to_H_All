@@ -1,80 +1,6 @@
-# MINIKUBE AND DOCKER INSTALLATION ON AMAZONLINUX 
-# Update the packages and package caches in instance.
+# Build images and push this images in github.
 
-yum update -y
-
-# Install the latest Docker Engine packages.
- yum install docker-y
-
-# Start the Docker service.
-
- systemctl start docker
-
- systemctl enable docker
-
-# Install Conntrack and Minikube
-
- yum install conntrack -y
-
- curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-
-# Start your MINIKUBE
-
-minikube start --force --driver=docker
-
-minikube version
-
-# Start your MINIKUBE
-
- /usr/local/bin/minikube start --force --driver=docker
-
-# Reliable Official Maven
-
-wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
-
-# Extract 
-
-tar -xvzf apache-maven-3.6.3-bin.tar.gz
-
-
-
-# Git 
-
-sudo yum install git  -y
-
-# Java
-
-sudo  yum install java -y
-
-# Install kubectl 
-curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.20.4/2021-04-12/bin/linux/amd64/kubectl
-
-# Make it executable:
-
-chmod +x ./kubectl
-
-# Create a bin directory if it doesn’t exist
-mkdir -p $HOME/bin
-
-# Move the binary to your bin directory
-cp ./kubectl $HOME/bin/kubectl
-
-# Update your PATH
-export PATH=$HOME/bin:$PATH
-
-# Persist PATH in your shell config
-echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
-source ~/.bashrc
-
-# Check kubectl version
-
-kubectl version --short --client
-
-git clone https://github.com/praveen1994dec/kubernetes_java_deployment.git
-
-Build images and push this images in github.
-
-Then run kubernetes commands
+# Then run kubernetes commands
 
 docker build -t sarathdevops/stockmanager:latest .
 docker push sarathdevops/stockmanager:latest
@@ -225,9 +151,38 @@ default       replicaset.apps/replicaset-nginx    1         1         1       64
 dev           replicaset.apps/nginx-7855fc665     3         3         3       16m    nginx        nginx:1.17                  app=nginx,pod-template-hash=7855fc665
 kube-system   replicaset.apps/coredns-95db45d46   2         2         2       181d   coredns      k8s.gcr.io/coredns:v1.9.3   k8s-app=kube-dns,pod-template-hash=95db45d46
 
+# kubectl get pods -o wide
+NAME                     READY   STATUS    RESTARTS   AGE   IP          NODE             NOMINATED NODE   READINESS GATES
+replicaset-nginx-vk4vd   1/1     Running   0          69m   10.1.0.88   docker-desktop   <none>           <none>
 
+ # kubectl get deployment -n dev
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+nginx   3/3     3            3           25m
 
+#  a deployment named nginx in the dev namespace, and you want to scale it to 5 replicas:
 
+# Particular namespace Scale Up
+kubectl scale deployment nginx --replicas=5 --namespace=dev
+deployment.apps/nginx scaled
 
+# Particular name space Scale Down
+kubectl scale deployment nginx --replicas=1 --namespace=dev
+deployment.apps/nginx scaled
 
+# kubectl get pods -n dev
+NAME                    READY   STATUS    RESTARTS   AGE
+nginx-7855fc665-jq4mj   1/1     Running   0          29m
 
+# 0 Scale
+kubectl scale deployment nginx --replicas=0 --namespace=dev
+deployment.apps/nginx scaled
+# kubectl get pods -n dev
+NAME                    READY   STATUS    RESTARTS   AGE
+nginx-7855fc665-h88px   1/1     Running   0          3m46s
+
+# To list all Pods across all namespaces using a single command,
+kubectl get pods --all-namespaces
+NAMESPACE     NAME                                     READY   STATUS    RESTARTS           AGE
+default       replicaset-nginx-vk4vd                   1/1     Running   0                  83m
+dev           nginx-7855fc665-h88px                    1/1     Running   0                  2m25s
+kube-system   coredns-95db45d46-lx5tb                  1/1     Running   14 (5d14h ago)     181d
