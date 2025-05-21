@@ -6,8 +6,10 @@ docker push sarathdevops/stockmanager:latest
 
 # Kubernetes 
 
-kubectl apply-f shopfront-service.yaml 
-kubectl apply-f productcatalogue-service.yaml 
+kubectl apply-f shopfront-service.yaml  
+
+kubectl apply-f productcatalogue-service.yaml
+
 kubectl apply-f stockmanager-service.yaml 
 
 # Issue
