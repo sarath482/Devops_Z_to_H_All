@@ -3,6 +3,7 @@
 # Then run kubernetes commands
 
 docker build -t sarathdevops/stockmanager:latest .
+
 docker push sarathdevops/stockmanager:latest
 
 # Kubernetes 
