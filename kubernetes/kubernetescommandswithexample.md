@@ -1,9 +1,6 @@
 # Build Docker images, push them to Docker Hub, and then deploy those images using Kubernetes manifests.
-<<<<<<< HEAD
 
 # Then run kubernetes commands
-=======
->>>>>>> 3171dfb0b476c9b0f7a3cf6328af43e424a12c4d
 
 docker build -t sarathdevops/stockmanager:latest .
 
@@ -11,19 +8,11 @@ docker push sarathdevops/stockmanager:latest
 
 # Kubernetes 
 
-<<<<<<< HEAD
 kubectl apply-f shopfront-service.yaml
 
 kubectl apply-f productcatalogue-service.yaml
 
 kubectl apply-f stockmanager-service.yaml
-=======
-kubectl apply-f shopfront-service.yaml  
-
-kubectl apply-f productcatalogue-service.yaml
-
-kubectl apply-f stockmanager-service.yaml 
->>>>>>> 3171dfb0b476c9b0f7a3cf6328af43e424a12c4d
 
 # Issue
 
@@ -35,12 +24,15 @@ Solution:
       containers:
       - name: productcatalogue
         image: praveensingam1994/stockmanager:latest
+
 **Updated:**
+
 
  spec:
       containers:
       - name: productcatalogue
         image: sarathdevops/stockmanager:latest
+        
 # Issue 
 
 php-apache-6487c65df8-5p7pp         0/1     ImagePullBackOff   0          115s
@@ -247,9 +239,5 @@ NAMESPACE     NAME                                     READY   STATUS    RESTART
 default       replicaset-nginx-vk4vd                   1/1     Running   0                  83m
 
 dev           nginx-7855fc665-h88px                    1/1     Running   0                  2m25s
-<<<<<<< HEAD
 
 kube-system   coredns-95db45d46-lx5tb                  1/1     Running   14 (5d14h ago)     181d
-=======
-kube-system   coredns-95db45d46-lx5tb                  1/1     Running   14 (5d14h ago)     181d
->>>>>>> 3171dfb0b476c9b0f7a3cf6328af43e424a12c4d
