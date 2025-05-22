@@ -56,8 +56,3 @@ Memory usage is 2249 MiB.
 
 2249 MiB ≈ 2.2 GiB of RAM used
 
-#  Resource quotas examples
-
-kubectl apply -f resource-quota.yaml
- 
-resourcequota/saas-team-quota created

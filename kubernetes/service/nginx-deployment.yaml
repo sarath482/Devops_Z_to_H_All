@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: dev  # The namespace where this deployment will live
+spec:
+  replicas: 1  # Number of nginx pods
+  selector:
+    matchLabels:
+      app: nginx  # This label is used by the service to target the pods
+  template:
+    metadata:
+      labels:
+        app: nginx  # Label applied to the pod
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest  # Official NGINX container image
+        ports:
+        - containerPort: 80  # NGINX serves HTTP on port 80
