@@ -10,7 +10,7 @@ docker push sarathdevops/stockmanager:latest
 
 kubectl get componentstatuses
 
-![alt text](image-3.png)
+![alt text](image.png)
 
 
 # List All Running Pods in All Namespaces
