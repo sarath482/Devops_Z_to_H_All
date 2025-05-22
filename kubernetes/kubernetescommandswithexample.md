@@ -6,6 +6,19 @@ docker build -t sarathdevops/stockmanager:latest .
 
 docker push sarathdevops/stockmanager:latest
 
+# Check Core Cluster Components (Control Plane + Node)
+
+kubectl get componentstatuses
+
+![alt text](image.png)
+
+# List All Running Pods in All Namespaces
+
+kubectl get pods --all-namespaces -o wide
+
+kubectl get pods -n kube-system
+
+
 # Kubernetes 
 
 kubectl apply-f shopfront-service.yaml
@@ -32,7 +45,7 @@ Solution:
       containers:
       - name: productcatalogue
         image: sarathdevops/stockmanager:latest
-        
+
 # Issue 
 
 php-apache-6487c65df8-5p7pp         0/1     ImagePullBackOff   0          115s
