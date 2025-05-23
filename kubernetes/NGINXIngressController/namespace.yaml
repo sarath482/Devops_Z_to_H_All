@@ -1,0 +1,10 @@
+# Create namespaces for ingress controller and your app
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-nginx  # For ingress controller
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev            # For your app (nginx in this case)
