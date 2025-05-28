@@ -1,0 +1,28 @@
+# pod-affinity.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-with-affinity
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: affinity-demo
+  template:
+    metadata:
+      labels:
+        app: affinity-demo
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                      - affinity-demo
+              topologyKey: "kubernetes.io/hostname"  # Place pods on the same node
+      containers:
+        - name: nginx
+          image: nginx

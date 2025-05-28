@@ -1,0 +1,18 @@
+# pod-toleration.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-toleration
+  labels:
+    app: demo
+spec:
+  tolerations:
+    - key: "key"                     # Should match taint key
+      operator: "Equal"
+      value: "value"                 # Should match taint value
+      effect: "NoSchedule"          # Must match taint effect
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80
