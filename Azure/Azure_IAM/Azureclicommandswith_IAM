@@ -1,0 +1,89 @@
+# Set your subscription
+
+az account set --subscription "<your-subscription-name-or-id>"
+
+# Create a user
+
+# Issue 
+
+az ad user create \
+  --display-name "Dev User" \
+  --user-principal-name devuser1@rsarathkumar482gmail.onmicrosoft.com \
+  --password "Azurepd123" \
+  --force-change-password-next-login true
+unrecognized arguments: --force-change-password-next-login true
+
+# Solution:
+
+Install Microsoft Graph Module:
+
+Install-Module Microsoft.Graph -Scope CurrentUser -AllowClobber
+
+# Working command:
+
+az ad user create \
+  --display-name "Developer User" \
+  --user-principal-name devuser1@rsarathkumar482gmail.onmicrosoft.com \
+  --password "Azurepd123"
+
+# Create a Group
+
+az ad group create \
+  --display-name "DeveloperGroup" \
+  --mail-nickname "DeveloperGroup"
+
+# Add User to Group
+
+az ad group member add \
+  --group "DeveloperGroup" \
+  --member-id $(az ad user show --id devuser1@rsarathkumar482gmail.onmicrosoft.com --query id -o tsv)
+
+# Create a Resource Group
+
+az group create \
+  --name DevRG \
+  --location eastus
+
+# Get the Object ID of the Azure AD Group
+
+GROUP_ID=$(az ad group show --group "DeveloperGroup" --query id -o tsv)
+
+
+# Assign IAM Role (e.g., Contributor)
+
+# ISSUE :
+
+GROUP_ID=$(az ad group show --group "DeveloperGroup" --query id -o tsv)
+
+rsara_2bj370@LAPTOP-TI8KMLDV MINGW64 /D/Devops_Pratice/Azure/Azure_IAM (main)
+$ az role assignment create \
+  --assignee-object-id $GROUP_ID \
+  --assignee-principal-type Group \
+  --role "Contributor" \
+  --scope $(az group show --name DevRG --query id -o tsv)
+
+(MissingSubscription) The request did not have a subscription or a valid tenant level resource provider.
+Code: MissingSubscription
+Message: The request did not have a subscription or a valid tenant level resource provider.
+
+# Check if users and groups
+
+az ad user list --output table
+
+az ad group list --output table
+
+# Delete user
+
+az ad user delete --id devuser1@rsarathkumar482gmail.onmicrosoft.com
+
+# To delete the Azure AD groupclear
+
+az ad group delete --group "DeveloperGroup"
+
+# Delete Resource group
+
+az group delete --name DevRG --yes --no-wait
+
+az group list --output table
+
+
