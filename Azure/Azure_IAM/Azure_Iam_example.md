@@ -577,3 +577,11 @@ Click Select → Review + assign
 | 4    | Assigned RBAC role  | Resource Group → Access control (IAM) |
 
 
+
+ARM deployment commands:
+
+az deployment sub create \
+  --location eastus \
+  --template-file rg-template.json \
+  --parameters rgName=DevRG rgLocation=eastus
+
