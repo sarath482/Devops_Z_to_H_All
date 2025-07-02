@@ -1,29 +1,32 @@
-name: .NET Build and Run
+name: .NET Build and Run   # Name of the workflow displayed in GitHub Actions UI
 
 on:
   push:
-    branches: [ main ]     # Run on push to main
+    branches: [ main ]     # Triggers this workflow when pushing to 'main' branch
   pull_request:
-    branches: [ main ]
+    branches: [ main ]     # Also triggers this workflow on PRs to 'main' branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # GitHub-hosted Ubuntu runner
+    runs-on: ubuntu-latest  # Uses the latest Ubuntu VM provided by GitHub runners
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v3   # Step 1: Pull your code from the GitHub repository
 
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v4   # Step 2: Install .NET SDK in the runner
       with:
-        dotnet-version: '8.0.x'  # Use .NET 8 (or change to 6.0, 7.0, etc.)
+        dotnet-version: '8.0.x'       # You are specifying .NET SDK version 8
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./HelloWorldDotNet.csproj   # Step 3: Restore NuGet dependencies for your project file
+      #  Use path here if .csproj is not in root
 
-    - name: 🛠️ Build the app
-      run: dotnet build --configuration Release
+    - name: Build the app
+      run: dotnet build ./HelloWorldDotNet.csproj --configuration Release
+      # Step 4: Build the app in Release mode using the .csproj file
 
     - name: Run the app
       run: dotnet run --project ./HelloWorldDotNet.csproj
+      # Step 5: Execute the app using the specified project file
